@@ -19,4 +19,4 @@ class LoginErrorState extends LoginStates {
   LoginErrorState(this.error);
 }
 
-class ChangePasswordVisibiltyState extends LoginStates {}
+class ChangePasswordVisibilityState extends LoginStates {}

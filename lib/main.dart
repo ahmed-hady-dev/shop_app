@@ -5,6 +5,7 @@ import 'package:shop_app/core/theme/theme_cubit.dart';
 import 'package:shop_app/utilities/bloc_observer.dart';
 import 'package:shop_app/views/login/login_view.dart';
 import 'package:shop_app/views/on_boarding/on_boarding_view.dart';
+import 'package:shop_app/views/shop/cubit/shop_cubit.dart';
 import 'package:shop_app/views/shop/shop_view.dart';
 import 'core/cacheHelper/cache_helper.dart';
 import 'core/dioHelper/dio_helper.dart';
@@ -52,6 +53,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => ThemeCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ShopCubit(),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
