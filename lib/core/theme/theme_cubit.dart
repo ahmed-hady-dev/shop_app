@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:shop_app/core/cacheHelper/cache_helper.dart';
-import 'package:shop_app/core/end_points.dart';
+import 'package:shop_app/core/constants.dart';
 
 part 'theme_state.dart';
 

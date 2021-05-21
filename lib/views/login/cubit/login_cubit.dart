@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:shop_app/core/dioHelper/dio_helper.dart';
-import 'package:shop_app/core/end_points.dart';
+import 'package:shop_app/core/constants.dart';
 import 'package:shop_app/core/router/router.dart';
 import 'package:shop_app/models/login_model.dart';
 

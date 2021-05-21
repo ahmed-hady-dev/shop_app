@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/core/end_points.dart';
+import 'package:shop_app/core/constants.dart';
 import 'package:shop_app/core/theme/theme_cubit.dart';
 import 'package:shop_app/utilities/bloc_observer.dart';
 import 'package:shop_app/views/login/login_view.dart';
@@ -22,7 +22,7 @@ void main() async {
   Widget widget;
   bool isDark = CacheHelper.get(key: ISDARK);
   bool onBoarding = CacheHelper.get(key: ONBOARDING);
-  String token = CacheHelper.get(key: TOKEN);
+  token = CacheHelper.get(key: TOKEN);
   if (onBoarding != null) {
     if (token != null)
       widget = ShopView();
@@ -55,7 +55,9 @@ class MyApp extends StatelessWidget {
           create: (context) => ThemeCubit(),
         ),
         BlocProvider(
-          create: (context) => ShopCubit(),
+          create: (context) => ShopCubit()
+            ..getHomeData()
+            ..getCategoriesData(),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
