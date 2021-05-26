@@ -1,17 +1,16 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_app/core/cacheHelper/cache_helper.dart';
 import 'package:shop_app/core/constants.dart';
 import 'package:shop_app/core/router/router.dart';
 import 'package:shop_app/views/login/cubit/login_cubit.dart';
-import 'package:shop_app/views/login/widgets/emailTextFormField.dart';
-import 'package:shop_app/views/login/widgets/page_title.dart';
-import 'package:shop_app/views/login/widgets/passwordTextField.dart';
+import 'package:shop_app/widgets/emailTextFormField.dart';
+import 'package:shop_app/views/login/widgets/login_page_title.dart';
 import 'package:shop_app/views/login/widgets/register_button.dart';
 import 'package:shop_app/views/shop/shop_view.dart';
 import 'package:shop_app/widgets/customButton.dart';
+import 'package:shop_app/widgets/passwordTextField.dart';
 import 'package:shop_app/widgets/show_toast.dart';
 
 class LoginView extends StatelessWidget {
@@ -25,7 +24,10 @@ class LoginView extends StatelessWidget {
             if (state.loginModel.status) {
               CacheHelper.saveData(
                       key: TOKEN, value: state.loginModel.data.token)
-                  .then((value) => MagicRouter.navigateAndPopAll(ShopView()));
+                  .then((value) {
+                token = state.loginModel.data.token;
+                MagicRouter.navigateAndPopAll(ShopView());
+              });
             } else {
               showToast(
                   text: state.loginModel.message, state: ToastStates.ERROR);
@@ -47,7 +49,7 @@ class LoginView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        PageTitle(),
+                        LoginPageTitle(),
                         emailTextFormField(emailController),
                         SizedBox(height: 20),
                         passwordTextFormField(

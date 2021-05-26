@@ -16,3 +16,23 @@ class ShopErrorHomeDataState extends ShopState {}
 class ShopSuccessCategoriesState extends ShopState {}
 
 class ShopErrorCategoriesState extends ShopState {}
+
+class ShopSuccessChangeFavoritesState extends ShopState {}
+
+class ShopErrorChangeFavoritesState extends ShopState {}
+
+class ShopLoadingGetFavoritesState extends ShopState {}
+
+class ShopSuccessGetFavoritesState extends ShopState {}
+
+class ShopErrorGetFavoritesState extends ShopState {}
+
+class ShopLoadingGetUserDataState extends ShopState {}
+
+class ShopSuccessGetUserDataState extends ShopState {
+  final LoginModel loginModel;
+
+  ShopSuccessGetUserDataState(this.loginModel);
+}
+
+class ShopErrorGetUserDataState extends ShopState {}

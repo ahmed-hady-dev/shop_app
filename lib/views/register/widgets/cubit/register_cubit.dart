@@ -8,26 +8,32 @@ import 'package:shop_app/core/constants.dart';
 import 'package:shop_app/core/router/router.dart';
 import 'package:shop_app/models/login_model.dart';
 
-part 'login_state.dart';
+part 'register_state.dart';
 
-class LoginCubit extends Cubit<LoginStates> {
-  LoginCubit() : super(LoginInitialState());
+class RegisterCubit extends Cubit<RegisterStates> {
+  RegisterCubit() : super(RegisterInitialState());
 
-  static LoginCubit get(context) => BlocProvider.of(context);
+  static RegisterCubit get(context) => BlocProvider.of(context);
 
   LoginModel loginModel;
 
-  void userLogin({
+  //===============================================================
+
+  void userRegister({
+    @required String name,
     @required String email,
     @required String password,
+    @required String phone,
   }) async {
-    emit(LoginLoadingState());
+    emit(RegisterLoadingState());
 
     var response = await DioHelper.postData(
-      url: LOGIN,
+      url: REGISTER,
       data: {
+        'name': name,
         'email': email,
         'password': password,
+        'phone': phone,
       },
     );
     try {
@@ -35,15 +41,12 @@ class LoginCubit extends Cubit<LoginStates> {
       loginModel = LoginModel.fromJson(response.data);
       ScaffoldMessenger.of(MagicRouter.currentContext)
           .showSnackBar(SnackBar(content: Text(response.data.toString())));
-      emit(LoginSuccessState(loginModel));
+      emit(RegisterSuccessState(loginModel));
     } catch (error) {
       print(response.data);
       loginModel = LoginModel.fromJson(response.data);
       print(loginModel.message);
-
-      ScaffoldMessenger.of(MagicRouter.currentContext)
-          .showSnackBar(SnackBar(content: Text(error.toString())));
-      emit(LoginErrorState(error.toString()));
+      emit(RegisterErrorState(error.toString()));
     }
   }
 
@@ -56,6 +59,6 @@ class LoginCubit extends Cubit<LoginStates> {
     suffix =
         isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
 
-    emit(LoginChangePasswordVisibilityState());
+    emit(RegisterChangePasswordVisibilityState());
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PageTitle extends StatelessWidget {
+class LoginPageTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;

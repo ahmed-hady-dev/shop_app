@@ -24,15 +24,94 @@ class ProductsView extends StatelessWidget {
               child: CircularProgressIndicator(),
             ),
             builder: (context) => buildProductBody(
-                shopCubit.homeModel, shopCubit.categoriesModel),
+                shopCubit.homeModel, shopCubit.categoriesModel, context),
           ),
         );
       },
     );
   }
 
+  Widget buildGridProduct(ProductModel model, context) => Container(
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              alignment: AlignmentDirectional.bottomStart,
+              children: [
+                Image(
+                  image: NetworkImage(
+                    model.image.toString(),
+                  ),
+                  height: 200.0,
+                  width: double.infinity,
+                ),
+                if (model.discount != 0)
+                  Container(
+                    color: Colors.red,
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    child: Text(
+                      'DISCOUNT',
+                      style: TextStyle(color: Colors.white, fontSize: 8),
+                    ),
+                  )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    model.name,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: TextStyle(height: 1.3),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        '${model.price.round()}   ',
+                        style: TextStyle(fontSize: 12, color: Colors.indigo),
+                      ),
+                      if (model.discount != 0)
+                        Text(
+                          '${model.oldPrice.round()}',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.grey,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      Spacer(),
+                      CircleAvatar(
+                        radius: 15.0,
+                        backgroundColor:
+                            ShopCubit.get(context).favorites[model.id]
+                                ? Colors.red
+                                : Colors.grey,
+                        child: IconButton(
+                          onPressed: () {
+                            ShopCubit.get(context).changeFavorites(model.id);
+                          },
+                          icon: Icon(
+                            Icons.favorite_border,
+                            size: 14.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+
   Widget buildProductBody(
-      HomeModel homeModel, CategoriesModel categoriesModel) {
+      HomeModel homeModel, CategoriesModel categoriesModel, context) {
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       child: Column(
@@ -99,80 +178,17 @@ class ProductsView extends StatelessWidget {
               childAspectRatio: 1 / 1.58,
               physics: NeverScrollableScrollPhysics(),
               crossAxisCount: 2,
-              children: List.generate(homeModel.data.products.length,
-                  (index) => buildGridProduct(homeModel.data.products[index])),
+              children: List.generate(
+                homeModel.data.products.length,
+                (index) =>
+                    buildGridProduct(homeModel.data.products[index], context),
+              ),
             ),
           ),
         ],
       ),
     );
   }
-
-  Widget buildGridProduct(ProductModel model) => Container(
-        color: Colors.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              alignment: AlignmentDirectional.bottomStart,
-              children: [
-                Image(
-                  image: NetworkImage(
-                    model.image.toString(),
-                  ),
-                  height: 200.0,
-                  width: double.infinity,
-                ),
-                if (model.discount != 0)
-                  Container(
-                    color: Colors.red,
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: Text(
-                      'DISCOUNT',
-                      style: TextStyle(color: Colors.white, fontSize: 8),
-                    ),
-                  )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    model.name,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: TextStyle(height: 1.3),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        '${model.price.round()}   ',
-                        style: TextStyle(fontSize: 12, color: Colors.indigo),
-                      ),
-                      if (model.discount != 0)
-                        Text(
-                          '${model.oldPrice.round()}',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.grey,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
-                      Spacer(),
-                      IconButton(
-                          padding: EdgeInsets.zero,
-                          icon: Icon(Icons.favorite_border),
-                          onPressed: () {})
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
 
   Widget buildCategoryItem(DataModel model) => Stack(
         alignment: AlignmentDirectional.bottomCenter,

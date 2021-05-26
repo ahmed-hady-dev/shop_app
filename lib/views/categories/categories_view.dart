@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/views/shop/cubit/shop_cubit.dart';
-import 'package:shop_app/views/shop/cubit/shop_cubit.dart';
 
 class CategoriesView extends StatelessWidget {
   @override
@@ -14,6 +13,7 @@ class CategoriesView extends StatelessWidget {
       body: BlocBuilder<ShopCubit, ShopState>(
         builder: (context, state) {
           return ListView.separated(
+            physics: BouncingScrollPhysics(),
             itemBuilder: (context, index) => buildCatItem(context,
                 ShopCubit.get(context).categoriesModel.data.data[index]),
             separatorBuilder: (context, index) => Divider(),
