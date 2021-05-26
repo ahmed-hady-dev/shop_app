@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:shop_app/core/dioHelper/dio_helper.dart';
 import 'package:shop_app/core/constants.dart';
-import 'package:shop_app/core/router/router.dart';
 import 'package:shop_app/models/login_model.dart';
 
 part 'login_state.dart';
@@ -33,16 +32,11 @@ class LoginCubit extends Cubit<LoginStates> {
     try {
       print(response.data);
       loginModel = LoginModel.fromJson(response.data);
-      ScaffoldMessenger.of(MagicRouter.currentContext)
-          .showSnackBar(SnackBar(content: Text(response.data.toString())));
       emit(LoginSuccessState(loginModel));
     } catch (error) {
       print(response.data);
       loginModel = LoginModel.fromJson(response.data);
       print(loginModel.message);
-
-      ScaffoldMessenger.of(MagicRouter.currentContext)
-          .showSnackBar(SnackBar(content: Text(error.toString())));
       emit(LoginErrorState(error.toString()));
     }
   }
